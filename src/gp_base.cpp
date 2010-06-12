@@ -96,10 +96,16 @@ namespace gnup {
         
         // Format initialization phase: gnuplot must know in advance which
         // plots must be achieved.
-        if (countEnabAxis() == 3) {
-            command("splot ");
-        } else {
-            command("plot ");
+        switch (countEnabAxis()) {
+            case 0:
+                // Nothing to plot (it should never be the case)
+                return;
+            case 1:
+            case 2:
+                command("plot ");
+                break;
+            default:
+                command("splot ");
         }
         i = sources.begin();
         end = sources.end();
