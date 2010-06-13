@@ -7,6 +7,7 @@ namespace gnup {
     Plot::Plot (unsigned xs)
     {
         axis = xs;
+        trigger = NULL;
     }
 
     Plot::~Plot ()
@@ -25,7 +26,6 @@ namespace gnup {
         memcpy((void *)v, (void *)vals, n * sizeof(float));
 
         data.push_back(v);
-        iter = data.begin();
         if (trigger) {
             trigger->trig();
         }
@@ -36,16 +36,10 @@ namespace gnup {
         trigger = t;
     }
 
-    const float * Plot::nextVector ()
+    void Plot::getIters (DataSet::iterator &b, DataSet::iterator &e)
     {
-        if (iter == data.end()) {
-            return NULL;
-        } else {
-            float * vals;
-            vals = *iter;
-            iter ++;
-            return vals;
-        }
+        b = data.begin();
+        e = data.end();
     }
 
     unsigned Plot::getAxis ()

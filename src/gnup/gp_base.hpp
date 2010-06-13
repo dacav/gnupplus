@@ -53,10 +53,10 @@ namespace gnup {
 
         protected:
             Plot (unsigned axis);
-            const float * nextVector ();
 
             /** Concatenate a new vector */
             void addVector (float *vals, size_t n);
+            void getIters (DataSet::iterator &b, DataSet::iterator &e);
 
         private:
             /** Used axis */
@@ -64,7 +64,6 @@ namespace gnup {
 
             Trigger *trigger;
             DataSet data;
-            DataSet::iterator iter;
     };
 
     class GnuPlot : public Comm, Trigger {
