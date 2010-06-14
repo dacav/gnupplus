@@ -10,9 +10,13 @@
 
 namespace gnup {
 
-    Comm::Comm (const char *prog) throw (CommError)
+    Comm::Comm (const char *prog, bool req_X) throw (CommError)
     {
         int pipefd[2];
+
+        if (req_X) {
+            checkX();
+        }
 
         if (pipe(pipefd) == -1) {
             CommError err("Unable to pipe");
@@ -40,6 +44,14 @@ namespace gnup {
         }
         close(pipefd[0]);
         output = fdopen(pipefd[1], "a");
+    }
+
+    void Comm::checkX () throw (CommError)
+    {
+        if (getenv("DISPLAY") == NULL) {
+            CommError err("Cannot find DISPLAY variable");
+            throw err;
+        }
     }
 
     Comm::~Comm ()

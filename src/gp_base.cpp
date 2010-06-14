@@ -62,7 +62,7 @@ namespace gnup {
     }
 
     GnuPlot::GnuPlot (size_t dims, const char *prog) throw (CommError)
-           : Comm(prog)
+           : Comm(prog, true)
     {
         dimensions = dims;
     }

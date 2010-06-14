@@ -21,11 +21,13 @@ namespace gnup {
             void command (const char *fmt, ...);
 
         protected:
-            Comm (const char *prog) throw (CommError);
+            Comm (const char *prog, bool req_X) throw (CommError);
 
         private:
             pid_t child;
             FILE *output;
+
+            void checkX() throw (CommError);
 
     };
 
