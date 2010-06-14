@@ -9,6 +9,8 @@ namespace gnup {
         trigger = NULL;
         title = tit;
         style = LINES;
+        auto_update = true;
+        max_size = -1;
     }
 
     Plot::~Plot ()
@@ -28,7 +30,10 @@ namespace gnup {
         memcpy((void *)v, (void *)vals, n * sizeof(float));
 
         data.push_back(v);
-        if (trigger) {
+        if (max_size && data.size() > max_size) {
+            data.pop_front();
+        }
+        if (auto_update && trigger) {
             trigger->trig();
         }
     }
@@ -87,6 +92,16 @@ namespace gnup {
                 break;
         }
         c->command("with %s ", sn);
+    }
+
+    void Plot::setAutoUpdate (bool au)
+    {
+        auto_update = au;
+    }
+
+    void Plot::setOverflow (size_t max)
+    {
+        max_size = max;
     }
 
     GnuPlot::GnuPlot (size_t dims, const char *prog) throw (CommError)
@@ -168,6 +183,26 @@ namespace gnup {
             // Terminate data set
             command("e\n");
         }
+    }
+
+    void GnuPlot::setXLabel (const char *label)
+    {
+        setLabel('x', label);
+    }
+
+    void GnuPlot::setYLabel (const char *label)
+    {
+        setLabel('y', label);
+    }
+
+    void GnuPlot::setZLabel (const char *label)
+    {
+        setLabel('z', label);
+    }
+
+    void GnuPlot::setLabel (char which, const char *label)
+    {
+        command("set %clabel \"%s\"", which, label);
     }
 
 }

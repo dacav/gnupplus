@@ -65,7 +65,7 @@ namespace gnup {
              *  data sequence for the 'plot' command.
              */
             virtual void writePlotting (Comm *c, DataSet::iterator begin,
-                                      DataSet::iterator end) = 0;
+                                        DataSet::iterator end) = 0;
 
             const char * getTitle ();
 
@@ -86,10 +86,30 @@ namespace gnup {
 
             void writeStyle (Comm *c);
 
+            /** Enables or disables the auto-update function
+             *
+             * The function allows to enable or disable the real-time
+             * plotting behaviour by enabling or disabling the trigger
+             * when the addVector() method is called.
+             *
+             * By default the class has a real-time behaviour.
+             *
+             * @param au Auto-update flag, true for real-time behaviour,
+             *           false for offline behaviour.
+             */
+            void setAutoUpdate (bool au);
+
             /** Used by a GnuPlot instance in order to get the plotting
              * format for the 'plot' command.
              */
             virtual void writeFormat (Comm *c) = 0;
+
+            /** Set the maximum length of the internal data list.
+             *
+             * @param max The max length. Set it to 0 in order to keep all
+             *            data.
+             */
+            void setOverflow (size_t max);
 
         protected:
             Plot (const char *title);
@@ -105,12 +125,15 @@ namespace gnup {
              */
             void addVector (float *vals);
 
+            DataSet data;
+
         private:
 
             const char *title;
             Trigger *trigger;
-            DataSet data;
             style_t style;
+            bool auto_update;
+            size_t max_size;
 
     };
 
@@ -123,7 +146,13 @@ namespace gnup {
             void trig ();
             void addSource (Plot &src) throw (PlotError);
 
+            void setXLabel (const char *label);
+            void setYLabel (const char *label);
+            void setZLabel (const char *label);
+
         private:
+
+            void setLabel (char which, const char *label);
 
             std::list<Plot *> sources;
             size_t dimensions;
