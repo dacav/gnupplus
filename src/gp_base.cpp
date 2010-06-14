@@ -8,7 +8,7 @@ namespace gnup {
     {
         trigger = NULL;
         title = tit;
-        flags = 0;
+        style = LINES;
     }
 
     Plot::~Plot ()
@@ -38,9 +38,9 @@ namespace gnup {
         trigger = t;
     }
 
-    void Plot::getPlotting (Comm *c)
+    void Plot::writePlotting (Comm *c)
     {
-        getPlotting(c, data.begin(), data.end());
+        writePlotting(c, data.begin(), data.end());
     }
 
     const char * Plot::getTitle ()
@@ -48,17 +48,45 @@ namespace gnup {
         return title;
     }
 
-    static const unsigned PL_WITH_LINES = 1 << 0;
-
-    void Plot::setWithLines (bool wl)
+    void Plot::setStyle (style_t s)
     {
-        if (wl) flags |= PL_WITH_LINES;
-        else flags &= ~PL_WITH_LINES;
+        style = s;
     }
 
-    bool Plot::getWithLines ()
+    void Plot::writeStyle (Comm *c)
     {
-        return (bool) (flags & PL_WITH_LINES);
+        const char *sn;
+
+        switch (style) {
+            case LINES:
+                sn = "lines";
+                break;
+            case POINTS:
+                sn = "points";
+                break;
+            case LINESPOINTS:
+                sn = "linespoints";
+                break;
+            case IMPULSES:
+                sn = "impulses";
+                break;
+            case DOTS:
+                sn = "dots";
+                break;
+            case STEPS:
+                sn = "steps";
+                break;
+            case ERRORBARS:
+                sn = "errorbars";
+                break;
+            case BOXES:
+                sn = "boxes";
+                break;
+            case BOXERRORBARS:
+                sn = "boxerrorbars";
+                break;
+        }
+        c->command("with %s ", sn);
     }
 
     GnuPlot::GnuPlot (size_t dims, const char *prog) throw (CommError)
@@ -111,10 +139,8 @@ namespace gnup {
             else command("notitle");
 
             // Plot specific data settings:
-            src->getFormat(this);
-            if (src->getWithLines()) {
-                command("w l ");
-            }
+            src->writeFormat(this);
+            src->writeStyle(this);
 
             if (--size) {
                 // This puts the comma between two plotting indications.
@@ -138,7 +164,7 @@ namespace gnup {
         // Actual plotting phase
         for (i = sources.begin(); i != sources.end(); i ++) {
             Plot *src = *i;
-            src->getPlotting(this);
+            src->writePlotting(this);
             // Terminate data set
             command("e\n");
         }

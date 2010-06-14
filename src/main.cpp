@@ -11,7 +11,7 @@ int main (int argc, char **argv)
     try {
         GnuPlot gplot(2, argc > 1 ? argv[1] : "gnuplot");
         Plot2D p("foo", DATA, DATA);
-        p.setWithLines(true);
+        p.setStyle(Plot::LINESPOINTS);
 
         gplot.addSource(p);
 
