@@ -9,9 +9,9 @@
 
 namespace gnup {
 
-    class CommError : public gnup::Error {
+    class CommError : public Error {
         public:
-            CommError (const char *msg) throw();
+            CommError (const char *msg) throw() : Error(msg) {}
     };
 
     class Comm {

@@ -10,9 +10,6 @@
 
 namespace gnup {
 
-    CommError::CommError (const char *m) throw()
-          : Error(m) { } 
-
     Comm::Comm (const char *prog) throw (CommError)
     {
         int pipefd[2];

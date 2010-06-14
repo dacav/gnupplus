@@ -6,65 +6,20 @@
 
 using namespace gnup;
 
-class SrcTest : public Plot {
-
-    public:
-        SrcTest () : Plot( AXIS_X | AXIS_Y | AXIS_Z ) { }
-
-        void giveFormat (Comm *c)
-        {
-            c->command("\"-\" title \"%s\" w l", "ciupa");
-        }
-
-        void givePlotting (Comm *c)
-        {
-            DataSet::iterator b, e;
-
-            getIters(b, e);
-            while (b != e) {
-                const float *vals = *b;
-
-                c->command("%f %f %f\n", vals[0], vals[1], vals[2]);
-                b ++;
-            }
-        }
-
-        void addVector (float *vals)
-        {
-            Plot::addVector(vals, 3);
-        }
-
-};
-
-int main ()
+int main (int argc, char **argv)
 {
     try {
-        GnuPlot plot;
-        SrcTest src0;
-        SrcTest src1;
+        GnuPlot gplot(2, argc > 1 ? argv[1] : "gnuplot");
+        Plot2D p("foo", DATA, DATA);
+        p.setWithLines(true);
 
-        plot.addSource(src0);
-        plot.addSource(src1);
+        gplot.addSource(p);
 
         for (int i = 0; i < 100; i ++) {
-            float vals[3];
-
-            vals[1] = -0.5;
-            vals[0] = (float) i;
-            vals[2] = ((float) rand()) / RAND_MAX;
-        
-            printf("PUSHING: %f %f %f\n", vals[0], vals[1], vals[2]);
-
-            usleep(50e3);
-            src0.addVector(vals);
-
-            vals[1] = 0.5;
-            vals[0] = (float) i;
-            vals[2] = ((float) rand()) / RAND_MAX;
-
-            usleep(50e3);
-            src1.addVector(vals);
+            p.addVector(100 * i, ((float )rand()) / RAND_MAX);
+            usleep(250e3);
         }
+        printf("Ok, finished!\n");
 
     } catch (gnup::CommError &err) {
         perror(err.what());
