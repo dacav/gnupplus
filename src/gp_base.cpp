@@ -63,9 +63,6 @@ namespace gnup {
         const char *sn;
 
         switch (style) {
-            case LINES:
-                sn = "lines";
-                break;
             case POINTS:
                 sn = "points";
                 break;
@@ -89,6 +86,10 @@ namespace gnup {
                 break;
             case BOXERRORBARS:
                 sn = "boxerrorbars";
+                break;
+            case LINES:
+            default:
+                sn = "lines";
                 break;
         }
         c->command("with %s ", sn);
