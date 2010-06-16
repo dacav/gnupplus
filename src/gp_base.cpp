@@ -206,5 +206,10 @@ namespace gnup {
         command("set %clabel \"%s\"\n", which, label);
     }
 
+    void GnuPlot::clear ()
+    {
+        command("clear");
+    }
+
 }
 

@@ -48,27 +48,50 @@ namespace gnup {
 
         public:
 
-            /** Style to be used in this plot */
+            /** Style to be used in this plot.
+             *
+             * @warning The error bars are not correctly implemented, for
+             *          the moment.
+             */
             enum style_t {
-                LINES,
-                POINTS,
-                LINESPOINTS,
-                IMPULSES,
-                DOTS,
-                STEPS,
-                ERRORBARS,
-                BOXES,
-                BOXERRORBARS
+                LINES,          /**< Plot lines */
+                POINTS,         /**< Plot points */
+                LINESPOINTS,    /**< Plot both lines and points */
+                IMPULSES,       /**< Plot dirac deltas */
+                DOTS,           /**< Plot dots */
+                STEPS,          /**< Plot steps from the previous value */
+                ERRORBARS,      /**< Plot error bars */
+                BOXES,          /**< Plot boxes */
+                BOXERRORBARS    /**< Plot boxes and error bars */
             };
 
-            /** Used by a GnuPlot instance in order to get the plotting
-             *  data sequence for the 'plot' command.
+            /** Writer for the plotting sequence.
+             *
+             * Used by a gnup::GnuPlot instance in order to get the
+             * plotting data sequence for the 'plot' command.
+             *
+             * This method must be implemented by the extending class
+             * depending on the specific plotting semantics.
+             *
+             * @see gnup::2DPlot and gnup::3DPlot.
+             *
+             * @param c The communication channel;
+             * @param begin The stdlib iterator for start of the list;
+             * @param end The stdlib iterator for end of the list.
              */
             virtual void writePlotting (Comm *c, DataSet::iterator begin,
                                         DataSet::iterator end) = 0;
 
+            /** Returns the title of the plotting.
+             *
+             * This method will be used by the gnup::GnuPlot class in
+             * order to build the legend.
+             *
+             * @return The title of the graph.
+             */
             const char * getTitle ();
 
+            /** Destructor */
             virtual ~Plot ();
 
             /** Set the trigger.
@@ -78,8 +101,22 @@ namespace gnup {
              */
             void setTrigger (Trigger *t);
 
+            /** Writer for the plotting sequence.
+             *
+             * This method simply calls the other overrided writePlotting
+             * with gnup::Plot::data begin and end iterators.
+             *
+             * @param c The communication channel;
+             */
             void writePlotting (Comm *c);
 
+            /** Dimension of the plot.
+             *
+             * Obviously the dimension depends on the extending class and
+             * must be implemented.
+             *
+             * @return The size of the plot.
+             */
             virtual size_t getDimension () = 0;
 
             void setStyle (style_t s);
@@ -149,6 +186,8 @@ namespace gnup {
             void setXLabel (const char *label);
             void setYLabel (const char *label);
             void setZLabel (const char *label);
+
+            void clear ();
 
         private:
 
