@@ -203,7 +203,7 @@ namespace gnup {
 
     void GnuPlot::setLabel (char which, const char *label)
     {
-        command("set %clabel \"%s\"", which, label);
+        command("set %clabel \"%s\"\n", which, label);
     }
 
 }
