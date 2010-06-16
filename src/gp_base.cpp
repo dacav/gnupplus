@@ -27,6 +27,7 @@ namespace gnup {
     {
         size_t n = getDimension();
         float *v = new float[n];
+
         memcpy((void *)v, (void *)vals, n * sizeof(float));
 
         data.push_back(v);
@@ -209,6 +210,26 @@ namespace gnup {
     void GnuPlot::clear ()
     {
         command("clear");
+    }
+
+    void GnuPlot::setXRange (float min, float max)
+    {
+        setRange('x', min, max);
+    }
+
+    void GnuPlot::setYRange (float min, float max)
+    {
+        setRange('y', min, max);
+    }
+
+    void GnuPlot::setZRange (float min, float max)
+    {
+        setRange('z', min, max);
+    }
+
+    void GnuPlot::setRange (char which, float min, float max)
+    {
+        command("set %crange [%f:%f]\n", which, min, max);
     }
 
 }
