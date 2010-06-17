@@ -1,5 +1,5 @@
-# Copyright (C) 2009 2010 Giovanni [gnup] Simoni
-#                           <simgignup@gmail.com>
+# Copyright (C) 2010 Giovanni [dacav] Simoni
+#                    <simgidacav@gmail.com>
 # 
 # This program is free software; you can redistribute it and/or 
 # modify it under the terms of the GNU General Public License 
@@ -17,22 +17,13 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 # 
 
-SUBDIRS = tests
-AM_CPPFLAGS = -I./ -Wall -Werror
-lib_LTLIBRARIES = libgnupplus.la
+AM_CPPFLAGS = -I$(top_srcdir)/src/ -I./ -Wall -Werror
 
-include_HEADERS = gnupplus.hpp
+check_PROGRAMS = example
 
-includetreedir = $(prefix)/include/gnup
-includetree_HEADERS = gnupplus/except.hpp \
-                      gnupplus/gnuplot.hpp \
-                      gnupplus/pipe.hpp \
-                      gnupplus/plots.hpp
+TESTS = $(check_PROGRAMS)
+AM_LDFLAGS = -L$(top_srcdir)/src/ -L./ -L../
+LDADD = -lgnupplus
 
-libgnupplus_la_SOURCES = $(include_HEADERS) \
-                         $(includetreedir_HEADERS) \
-                         except.cpp \
-                         gnuplot.cpp \
-                         pipe.cpp \
-                         plots.cpp
+example_SOURCES = example.cpp
 
