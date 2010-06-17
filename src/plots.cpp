@@ -21,7 +21,112 @@
 #include <gnupplus/plots.hpp>
 #include <gnupplus/gnuplot.hpp>
 
+#include <cstring>
+
 namespace gnup {
+
+    Plot::Plot (const char *tit)
+    {
+        trigger = NULL;
+        title = tit;
+        style = LINES;
+        auto_update = true;
+        max_size = -1;
+    }
+
+    Plot::~Plot ()
+    {
+        DataSet::iterator i, end;
+
+        end = data.end();
+        for (i = data.begin(); i != end; i ++) {
+            delete[] *i;
+        }
+    }
+
+    void Plot::addVector (float *vals)
+    {
+        size_t n = getDimension();
+        float *v = new float[n];
+
+        memcpy((void *)v, (void *)vals, n * sizeof(float));
+
+        data.push_back(v);
+        if (max_size && data.size() > max_size) {
+            data.pop_front();
+        }
+        if (auto_update && trigger) {
+            trigger->trig();
+        }
+    }
+
+    void Plot::setTrigger (Trigger *t)
+    {
+        trigger = t;
+    }
+
+    void Plot::writePlotting (Comm *c)
+    {
+        writePlotting(c, data.begin(), data.end());
+    }
+
+    const char * Plot::getTitle ()
+    {
+        return title;
+    }
+
+    void Plot::setStyle (style_t s)
+    {
+        style = s;
+    }
+
+    void Plot::writeStyle (Comm *c)
+    {
+        const char *sn;
+
+        switch (style) {
+            case POINTS:
+                sn = "points";
+                break;
+            case LINESPOINTS:
+                sn = "linespoints";
+                break;
+            case IMPULSES:
+                sn = "impulses";
+                break;
+            case DOTS:
+                sn = "dots";
+                break;
+            case STEPS:
+                sn = "steps";
+                break;
+            case ERRORBARS:
+                sn = "errorbars";
+                break;
+            case BOXES:
+                sn = "boxes";
+                break;
+            case BOXERRORBARS:
+                sn = "boxerrorbars";
+                break;
+            case LINES:
+            default:
+                sn = "lines";
+                break;
+        }
+        c->command("with %s ", sn);
+    }
+
+    void Plot::setAutoUpdate (bool au)
+    {
+        auto_update = au;
+    }
+
+    void Plot::setOverflow (size_t max)
+    {
+        max_size = max;
+    }
+
 
     Plot2D::Plot2D (const char *title, axis_t x, axis_t y)
           : Plot(title)
