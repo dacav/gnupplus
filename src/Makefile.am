@@ -27,12 +27,14 @@ includetreedir = $(prefix)/include/gnup
 includetree_HEADERS = gnupplus/except.hpp \
                       gnupplus/gnuplot.hpp \
                       gnupplus/pipe.hpp \
-                      gnupplus/plots.hpp
+                      gnupplus/plots.hpp \
+                      gnupplus/layout.hpp
 
 libgnupplus_la_SOURCES = $(include_HEADERS) \
                          $(includetreedir_HEADERS) \
                          except.cpp \
                          gnuplot.cpp \
                          pipe.cpp \
-                         plots.cpp
+                         plots.cpp \
+                         layout.cpp
 

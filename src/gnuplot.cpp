@@ -207,49 +207,9 @@ namespace gnup {
         }
     }
 
-    void GnuPlot::setXLabel (const char *label)
-    {
-        setLabel('x', label);
-    }
-
-    void GnuPlot::setYLabel (const char *label)
-    {
-        setLabel('y', label);
-    }
-
-    void GnuPlot::setZLabel (const char *label)
-    {
-        setLabel('z', label);
-    }
-
-    void GnuPlot::setLabel (char which, const char *label)
-    {
-        command("set %clabel \"%s\"\n", which, label);
-    }
-
     void GnuPlot::clear ()
     {
         command("clear");
-    }
-
-    void GnuPlot::setXRange (float min, float max)
-    {
-        setRange('x', min, max);
-    }
-
-    void GnuPlot::setYRange (float min, float max)
-    {
-        setRange('y', min, max);
-    }
-
-    void GnuPlot::setZRange (float min, float max)
-    {
-        setRange('z', min, max);
-    }
-
-    void GnuPlot::setRange (char which, float min, float max)
-    {
-        command("set %crange [%f:%f]\n", which, min, max);
     }
 
 }

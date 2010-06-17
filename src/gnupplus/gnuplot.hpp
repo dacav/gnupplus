@@ -37,20 +37,9 @@ namespace gnup {
             void trig ();
             void addSource (Plot &src) throw (PlotError);
 
-            void setXLabel (const char *label);
-            void setYLabel (const char *label);
-            void setZLabel (const char *label);
-
-            void setXRange (float min, float max);
-            void setYRange (float min, float max);
-            void setZRange (float min, float max);
-
             void clear ();
 
         private:
-
-            void setLabel (char which, const char *label);
-            void setRange (char which, float min, float max);
 
             std::list<Plot *> sources;
             size_t dimensions;
