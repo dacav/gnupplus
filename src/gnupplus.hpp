@@ -18,7 +18,8 @@
  *
  */
 
-#include <gnuppluspipe.hpp>
-#include <gnupplusexcept.hpp>
-#include <gnupplusgnuplot.hpp>
-#include <gnupplusplots.hpp>
+#include <gnupplus/pipe.hpp>
+#include <gnupplus/except.hpp>
+#include <gnupplus/gnuplot.hpp>
+#include <gnupplus/plots.hpp>
+//#include <gnupplus/layout.hpp>
