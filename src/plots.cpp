@@ -18,7 +18,8 @@
  *
  */
 
-#include <gnup.hpp>
+#include <gnupplus/plots.hpp>
+#include <gnupplus/gnuplot.hpp>
 
 namespace gnup {
 

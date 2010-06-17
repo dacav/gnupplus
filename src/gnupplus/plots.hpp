@@ -18,10 +18,12 @@
  *
  */
 
-#ifndef __defined_gnup_gp_base_hpp
-#define __defined_gnup_gp_base_hpp
+#ifndef __defined_gnup_plots_hpp
+#define __defined_gnup_plots_hpp
 
-#include <gnup/pipe.hpp>
+#include <gnupplus/except.hpp>
+#include <gnupplus/pipe.hpp>
+
 #include <list>
 #include <stdint.h>
 
@@ -194,37 +196,51 @@ namespace gnup {
 
     };
 
-    class GnuPlot : public Comm, Trigger {
+
+    enum axis_t { DATA, AUTO };
+
+    class Plot2D : public Plot {
 
         public:
-            GnuPlot (size_t dimensions,
-                     const char *prog = "gnuplot") throw (CommError);
+            Plot2D (const char *title, axis_t x, axis_t y);
 
-            void trig ();
-            void addSource (Plot &src) throw (PlotError);
+            void writePlotting (Comm *c, DataSet::iterator begin,
+                               DataSet::iterator end);
 
-            void setXLabel (const char *label);
-            void setYLabel (const char *label);
-            void setZLabel (const char *label);
+            size_t getDimension ();
 
-            void setXRange (float min, float max);
-            void setYRange (float min, float max);
-            void setZRange (float min, float max);
+            void addVector (float x, float y);
 
-            void clear ();
+            void writeFormat (Comm *c);
 
         private:
+            struct { axis_t x, y; } coords;
+            uint8_t realsize;
 
-            void setLabel (char which, const char *label);
-            void setRange (char which, float min, float max);
+    };
 
-            std::list<Plot *> sources;
-            size_t dimensions;
+    class Plot3D : public Plot {
 
-            void initPlotting ();
+        public:
+            Plot3D (const char *title, axis_t x, axis_t y, axis_t z);
+
+            void writePlotting (Comm *c, DataSet::iterator begin,
+                               DataSet::iterator end);
+
+            size_t getDimension ();
+
+            void addVector (float x, float y, float z);
+
+            void writeFormat (Comm *c);
+
+        private:
+            struct { axis_t x, y, z; } coords;
+ 
+            uint8_t realsize;
+
     };
 
 }
 
-#endif // __defined_gnup_gp_base_hpp
+#endif // __defined_gnup_plots_hpp
 

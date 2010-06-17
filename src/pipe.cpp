@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <cstdio>
 
-#include <gnup.hpp>
+#include <gnupplus/pipe.hpp>
 
 namespace gnup {
 

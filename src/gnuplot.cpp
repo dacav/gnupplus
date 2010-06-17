@@ -18,7 +18,7 @@
  *
  */
 
-#include <gnup.hpp>
+#include <gnupplus/gnuplot.hpp>
 #include <cstdio>
 #include <cstring>
 

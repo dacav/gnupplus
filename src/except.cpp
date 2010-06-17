@@ -18,7 +18,7 @@
  *
  */
 
-#include <gnup.hpp>
+#include <gnupplus/except.hpp>
 
 #include <cstring>
 #include <cstdlib>

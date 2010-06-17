@@ -19,20 +19,20 @@
 
 #SUBDIRS = tests
 AM_CPPFLAGS = -I./ -Wall -Werror
-lib_LTLIBRARIES = libgnup.la
+lib_LTLIBRARIES = libgnupplus.la
 
-include_HEADERS = gnup.hpp
+include_HEADERS = gnupplus.hpp
 
 includetreedir = $(prefix)/include/gnup
-includetree_HEADERS = gnup/except.hpp \
-                      gnup/gp_base.hpp \
-                      gnup/pipe.hpp \
-                      gnup/plots.hpp
+includetree_HEADERS = gnupplus/except.hpp \
+                      gnupplus/gnuplot.hpp \
+                      gnupplus/pipe.hpp \
+                      gnupplus/plots.hpp
 
-libgnup_la_SOURCES = $(include_HEADERS) \
-                     $(includetreedir_HEADERS) \
-                     except.cpp \
-                     gp_base.cpp \
-                     pipe.cpp \
-                     plots.cpp
+libgnupplus_la_SOURCES = $(include_HEADERS) \
+                         $(includetreedir_HEADERS) \
+                         except.cpp \
+                         gnuplot.cpp \
+                         pipe.cpp \
+                         plots.cpp
 
