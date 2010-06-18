@@ -32,7 +32,9 @@ namespace gnup {
 
         public:
             GnuPlot (size_t dimensions,
-                     const char *prog = "gnuplot") throw (CommError);
+                     const char * prog = "gnuplot",
+                     char * const args[] = NULL)
+                throw (CommError);
 
             void trig ();
             void addSource (Plot &src) throw (PlotError);

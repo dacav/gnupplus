@@ -30,7 +30,8 @@
 
 namespace gnup {
 
-    Comm::Comm (const char *prog, bool req_X) throw (CommError)
+    Comm::Comm (const char * prog, char * const args[], bool req_X)
+               throw (CommError)
     {
         int pipefd[2];
 
@@ -49,7 +50,7 @@ namespace gnup {
             throw err;
         }
         if (child == 0) {
-            char * const args[] = {NULL};
+            char * const defargs[] = { (char * const)prog, NULL};
 
             close(pipefd[1]);
             if (dup2(pipefd[0], 0) == -1) {
@@ -57,7 +58,7 @@ namespace gnup {
                 throw err;
             }
             close(pipefd[0]);
-            if (execvp(prog, args) == -1) {
+            if (execvp(prog, args ? args : defargs) == -1) {
                 CommError err("Unable to exec");
                 throw err;
             }

@@ -25,5 +25,5 @@ TESTS = $(check_PROGRAMS)
 AM_LDFLAGS = -L$(top_srcdir)/src/ -L./ -L../
 LDADD = -lgnupplus
 
-example_SOURCES = example.cpp
+example_SOURCES = example.cpp test_environ.c test_environ.h
 

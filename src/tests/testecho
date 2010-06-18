@@ -3,7 +3,8 @@
 import sys
 
 def main (argv=None):
-    if not argv: args = sys.argv
+    if not argv: argv = sys.argv
+    print >> sys.stderr, "args: ", str(argv)
     try:
         while 1:
             print >> sys.stderr, raw_input()
