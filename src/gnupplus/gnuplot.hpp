@@ -33,7 +33,7 @@ namespace gnup {
         public:
             GnuPlot (size_t dimensions,
                      const char * prog = "gnuplot",
-                     char * const args[] = NULL)
+                     const char * args[] = NULL)
                 throw (CommError);
 
             void trig ();

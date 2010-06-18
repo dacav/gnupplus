@@ -41,7 +41,7 @@ namespace gnup {
             void command (const char *fmt, ...);
 
         protected:
-            Comm (const char * prog, char * const args[], bool req_X)
+            Comm (const char * prog, const char * args[], bool req_X)
                  throw (CommError);
 
         private:

@@ -17,7 +17,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 # 
 
-AM_CPPFLAGS = -I$(top_srcdir)/src/ -I./ -Wall -Werror
+AM_CPPFLAGS = -I$(top_srcdir)/src/ -I./ -Wall -Werror -D_GNU_SOURCE
 
 check_PROGRAMS = example
 

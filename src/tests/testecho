@@ -4,12 +4,16 @@ import sys
 
 def main (argv=None):
     if not argv: argv = sys.argv
-    print >> sys.stderr, "args: ", str(argv)
+    assert(len(argv) > 1)
+    print 'TESTECHO Using file ', argv[1]
     try:
+        outfile = file(argv[1], "wt")
         while 1:
-            print >> sys.stderr, raw_input()
+            outfile.write(raw_input())
+            outfile.flush()
     except:
         pass
+    outfile.close()
     return 0
 
 if __name__ == '__main__':
