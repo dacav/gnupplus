@@ -18,6 +18,7 @@
  *
  */
 
+#include <gnupplus/drawable.hpp>
 #include <gnupplus/layout.hpp>
 #include <gnupplus/pipe.hpp>
 #include <gnupplus/except.hpp>

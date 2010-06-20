@@ -22,7 +22,7 @@
 #define __defined_gnup_gp_base_hpp
 
 #include <gnupplus/pipe.hpp>
-#include <gnupplus/plots.hpp>
+#include <gnupplus/layout.hpp>
 #include <list>
 #include <stdint.h>
 
@@ -31,20 +31,17 @@ namespace gnup {
     class GnuPlot : public Comm, Trigger {
 
         public:
-            GnuPlot (size_t dimensions,
-                     const char *prog = "gnuplot") throw (CommError);
+
+            GnuPlot (const char *prog = "gnuplot") throw (CommError);
+            ~GnuPlot ();
 
             void trig ();
-            void addSource (Plot &src) throw (PlotError);
-
             void clear ();
+            void setLayout (Layout *l);
 
         private:
 
-            std::list<Plot *> sources;
-            size_t dimensions;
-
-            void initPlotting ();
+            Layout *layout;
     };
 
 }

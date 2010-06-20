@@ -7,10 +7,14 @@
 
 #include <stdint.h>
 
+#include <gnupplus/drawable.hpp>
 #include <gnupplus/plots.hpp>
 #include <gnupplus/pipe.hpp>
+#include <gnupplus/except.hpp>
 
 namespace gnup {
+
+    typedef std::pair<unsigned, unsigned> Coords;
 
     /** Layout cell
      *
@@ -23,10 +27,11 @@ namespace gnup {
      * Basically this is a list of plots of a single cell, but it's
      * characterized by some graph-related characteistics.
      */
-    class Cell : public std::list<Plot *> {
+    class Cell : public std::list<Plot *>, public Drawable {
 
         public:
-            Cell (const char *title = NULL);
+
+            Cell ();
 
             void setXLabel (const char *label);
             void setYLabel (const char *label);
@@ -38,8 +43,15 @@ namespace gnup {
 
             void writeSettings (Comm *c);
             void resetSettings (Comm *c);
+            void draw (Comm *c);
+
+            void addPlot (Plot &p);
+            void setTitle (const char *title);
 
         private:
+
+            size_t dimensions;
+
             const char *title;
             struct {
                 const char *x, *y, *z;
@@ -58,26 +70,52 @@ namespace gnup {
             static const uint8_t LABEL_Y = 1 << 4;
             static const uint8_t LABEL_Z = 1 << 5;
 
+            std::list<Plot *> plots;
+
+            void init (Comm *c);
+            void display (Comm *c);
+            void reset (Comm *c);
+
     };
 
     /** From cell coordinate to plot.
      *
      * Like an umbounded matrix.
      */
-    typedef std::map<std::pair<unsigned, unsigned>, Cell *> CellMap;
+    typedef std::map<Coords, Cell *> CellMap;
 
-    class Layout {
+    /** Exception for layout */
+    class LayoutError : public Error {
+        public:
+            /** Constructor.
+             *
+             * @param msg The error message.
+             */
+            LayoutError (const char *msg) throw() : Error(msg) {}
+    };
+
+    class Layout : public Drawable {
 
         public:
-            Layout ();
+            Layout (size_t nrows, size_t ncols);
             virtual ~Layout ();
-
-            void setColumns (size_t nc);
-            void setRows (size_t nr);
-
             void draw (Comm *c);
 
+            void setTrigger (Trigger *trig);
+            Trigger *getTrigger ();
+
+            void addPlot (Plot &p, unsigned row, unsigned col)
+                         throw (LayoutError);
+
+            Cell * getCell (unsigned row, unsigned col)
+                           throw (LayoutError);
+
         private:
+
+            void init (Comm *c);
+            void display (Comm *c);
+            void reset (Comm *c);
+
             size_t ncols;
             size_t nrows;
 
@@ -85,12 +123,9 @@ namespace gnup {
 
             void drawCell (Comm *c, Cell *cell, unsigned row,
                            unsigned col);
+
+            Trigger *trig;
     };
-
-    //        void setLabel (char which, const char *label);
-    //        void setRange (char which, float min, float max);
-
-
 
 }
 

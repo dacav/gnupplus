@@ -1,0 +1,22 @@
+
+
+
+** -------------------------------------------------------------------- **
+**                         Technical Reference                          **
+** -------------------------------------------------------------------- **
+
+ (1) Every instance of a GnuPlot class corresponds to the spawn of a
+     gnuplot process which takes commands through a unix pipe.
+
+ (2) The GnuPlot class defines by default a Layout internal instance
+     which can be replaced by the setLayout() method.
+     The default Layout provides a simple 1×1 subdivision of the canvas.
+
+ (3) Any element which is able to modify somehow the canvas must be a
+     subclass of the Drawable abstract class. This forces to implement
+     three methods: init(), display() and reset(), which respectively
+     prepare the canvas, display what must be displayed and reset the
+     canvas to the previous settings. The Drawable class also implements a
+     run() method which executes sequentially init(), display() and
+     reset(). The use of run() is not mandatory.
+

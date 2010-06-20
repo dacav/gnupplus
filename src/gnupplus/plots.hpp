@@ -23,6 +23,7 @@
 
 #include <gnupplus/except.hpp>
 #include <gnupplus/pipe.hpp>
+#include <gnupplus/drawable.hpp>
 
 #include <list>
 #include <stdint.h>
@@ -66,7 +67,7 @@ namespace gnup {
      * GnuPlot class. The ones which are meant for external access will be
      * marked in the comment.
      */
-    class Plot {
+    class Plot : public Drawable {
 
         public:
 
@@ -87,23 +88,6 @@ namespace gnup {
                 BOXERRORBARS    /**< Plot boxes and error bars */
             };
 
-            /** Writer for the plotting sequence.
-             *
-             * Used by a gnup::GnuPlot instance in order to get the
-             * plotting data sequence for the 'plot' command.
-             *
-             * This method must be implemented by the extending class
-             * depending on the specific plotting semantics.
-             *
-             * @see gnup::2DPlot and gnup::3DPlot.
-             *
-             * @param c The communication channel;
-             * @param begin The stdlib iterator for start of the list;
-             * @param end The stdlib iterator for end of the list.
-             */
-            virtual void writePlotting (Comm *c, DataSet::iterator begin,
-                                        DataSet::iterator end) = 0;
-
             /** Returns the title of the plotting.
              *
              * This method will be used by the gnup::GnuPlot class in
@@ -121,16 +105,7 @@ namespace gnup {
              * The trigger allows to signal new data. This method is used
              * by a GnuPlot instance in order to link the Plot.
              */
-            void setTrigger (Trigger *t);
-
-            /** Writer for the plotting sequence.
-             *
-             * This method simply calls the other overrided writePlotting
-             * with gnup::Plot::data begin and end iterators.
-             *
-             * @param c The communication channel;
-             */
-            void writePlotting (Comm *c);
+            void setTriggerPtr (Trigger **t);
 
             /** Dimension of the plot.
              *
@@ -158,11 +133,6 @@ namespace gnup {
              */
             void setAutoUpdate (bool au);
 
-            /** Used by a GnuPlot instance in order to get the plotting
-             * format for the 'plot' command.
-             */
-            virtual void writeFormat (Comm *c) = 0;
-
             /** Set the maximum length of the internal data list.
              *
              * @param max The max length. Set it to 0 in order to keep all
@@ -170,6 +140,10 @@ namespace gnup {
              */
             void setOverflow (size_t max);
 
+            void init (Comm *c);
+            void display (Comm *c);
+            void reset (Comm *c);
+ 
         protected:
             Plot (const char *title);
 
@@ -186,16 +160,39 @@ namespace gnup {
 
             DataSet data;
 
+            /** Writer for the plotting sequence.
+             *
+             * Used by a gnup::GnuPlot instance in order to get the
+             * plotting data sequence for the 'plot' command.
+             *
+             * This method must be implemented by the extending class
+             * depending on the specific plotting semantics.
+             *
+             * @see gnup::2DPlot and gnup::3DPlot.
+             *
+             * @param c The communication channel;
+             * @param begin The stdlib iterator for start of the list;
+             * @param end The stdlib iterator for end of the list.
+             */
+            virtual void display (Comm *c, DataSet::iterator begin,
+                                  DataSet::iterator end) = 0;
+
         private:
 
             const char *title;
-            Trigger *trigger;
+
+            /** A double-pointer to the gnup::Trigger
+             *
+             * This allows the gnup::Layout class to change its trigger
+             * without caring about all internal plots, which will be
+             * automatically updated.
+             */
+            Trigger **trigger;
             style_t style;
             bool auto_update;
             size_t max_size;
 
     };
-
 
     enum axis_t { DATA, AUTO };
 
@@ -204,8 +201,8 @@ namespace gnup {
         public:
             Plot2D (const char *title, axis_t x, axis_t y);
 
-            void writePlotting (Comm *c, DataSet::iterator begin,
-                               DataSet::iterator end);
+            void display (Comm *c, DataSet::iterator begin,
+                          DataSet::iterator end);
 
             size_t getDimension ();
 
@@ -224,8 +221,8 @@ namespace gnup {
         public:
             Plot3D (const char *title, axis_t x, axis_t y, axis_t z);
 
-            void writePlotting (Comm *c, DataSet::iterator begin,
-                               DataSet::iterator end);
+            void display (Comm *c, DataSet::iterator begin,
+                          DataSet::iterator end);
 
             size_t getDimension ();
 
