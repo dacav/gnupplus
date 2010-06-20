@@ -22,6 +22,8 @@
 #include <gnupplus/gnuplot.hpp>
 #include <cstring>
 
+#include <cstring>
+
 namespace gnup {
 
     Plot::Plot (const char *tit)
@@ -62,6 +64,7 @@ namespace gnup {
     void Plot::init (Comm *c)
     {
         const char *sn;
+
         switch (style) {
             case POINTS:
                 sn = "points";

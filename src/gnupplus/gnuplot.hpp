@@ -31,8 +31,11 @@ namespace gnup {
     class GnuPlot : public Comm, Trigger {
 
         public:
+            GnuPlot (size_t dimensions,
+                     const char * prog = "gnuplot",
+                     const char * args[] = NULL)
+                throw (CommError);
 
-            GnuPlot (const char *prog = "gnuplot") throw (CommError);
             ~GnuPlot ();
 
             void trig ();

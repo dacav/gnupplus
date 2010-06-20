@@ -20,12 +20,12 @@
 
 #include <gnupplus/gnuplot.hpp>
 #include <cstdio>
-#include <cstring>
 
 namespace gnup {
 
-    GnuPlot::GnuPlot (const char *prog) throw (CommError)
-           : Comm(prog, true)
+    GnuPlot::GnuPlot (size_t dims, const char *prog, const char * args[])
+                     throw (CommError)
+           : Comm(prog, args, true)
     {
         layout = new Layout(1, 1);
     }

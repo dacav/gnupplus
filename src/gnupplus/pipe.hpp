@@ -41,7 +41,8 @@ namespace gnup {
             void command (const char *fmt, ...);
 
         protected:
-            Comm (const char *prog, bool req_X) throw (CommError);
+            Comm (const char * prog, const char * args[], bool req_X)
+                 throw (CommError);
 
         private:
             pid_t child;
