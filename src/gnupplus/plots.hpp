@@ -30,21 +30,6 @@
 
 namespace gnup {
 
-    /** Trigger abstract class
-     *
-     * Any extending class must implement the trig() method, which will be
-     * called by a plotting class (namely an extender of the Plot
-     * abstract). This will require a replotting.
-     */
-    class Trigger {
-        public:
-            /** Replot the graph.
-             *
-             * You may want to redraw, since new data are available.
-             */
-            virtual void trig () = 0;
-    };
-
     /** Exception for plotting */
     class PlotError : public Error {
         public:
@@ -105,7 +90,7 @@ namespace gnup {
              * The trigger allows to signal new data. This method is used
              * by a GnuPlot instance in order to link the Plot.
              */
-            void setTriggerPtr (Trigger **t);
+            void setTrigger (Trigger *t);
 
             /** Dimension of the plot.
              *
@@ -187,7 +172,7 @@ namespace gnup {
              * without caring about all internal plots, which will be
              * automatically updated.
              */
-            Trigger **trigger;
+            Trigger *trigger;
             style_t style;
             bool auto_update;
             size_t max_size;

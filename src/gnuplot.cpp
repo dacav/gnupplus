@@ -23,11 +23,17 @@
 
 namespace gnup {
 
-    GnuPlot::GnuPlot (size_t dims, const char *prog, const char * args[])
+    GnuPlot::GnuPlot (const char *prog, const char * args[],
+                      Layout *l)
                      throw (CommError)
            : Comm(prog, args, true)
     {
-        layout = new Layout(1, 1);
+        if (l != NULL) {
+            layout = new Layout(*l);
+        } else {
+            layout = new Layout(1, 1);
+        }
+        layout->setTrigger(this);
     }
 
     GnuPlot::~GnuPlot ()
@@ -37,18 +43,25 @@ namespace gnup {
 
     void GnuPlot::trig ()
     {
-        // TODO
+        layout->run(this);
     }
 
     void GnuPlot::clear ()
     {
-        command("clear");
+        command("clear\n");
     }
 
-    void GnuPlot::setLayout (Layout *l)
+    void GnuPlot::addPlot (Plot &p, unsigned row, unsigned col)
+                           throw (LayoutError)
+    {
+        layout->addPlot(p, row, col);
+    }
+
+    void GnuPlot::setLayout (Layout &l)
     {
         delete layout;
-        layout = l;
+        layout = new Layout(l);
+        layout->setTrigger(this);
     }
 
 }

@@ -28,7 +28,8 @@ includetree_HEADERS = gnupplus/except.hpp \
                       gnupplus/gnuplot.hpp \
                       gnupplus/pipe.hpp \
                       gnupplus/plots.hpp \
-                      gnupplus/layout.hpp
+                      gnupplus/layout.hpp \
+                      gnupplus/drawable.hpp
 
 libgnupplus_la_SOURCES = $(include_HEADERS) \
                          $(includetreedir_HEADERS) \
@@ -36,5 +37,6 @@ libgnupplus_la_SOURCES = $(include_HEADERS) \
                          gnuplot.cpp \
                          pipe.cpp \
                          plots.cpp \
-                         layout.cpp
+                         layout.cpp \
+                         drawable.cpp
 

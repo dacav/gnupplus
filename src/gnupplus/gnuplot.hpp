@@ -31,16 +31,19 @@ namespace gnup {
     class GnuPlot : public Comm, Trigger {
 
         public:
-            GnuPlot (size_t dimensions,
-                     const char * prog = "gnuplot",
-                     const char * args[] = NULL)
+            GnuPlot (const char * prog = "gnuplot",
+                     const char * args[] = NULL,
+                     Layout *layout = NULL)
                 throw (CommError);
 
             ~GnuPlot ();
 
             void trig ();
             void clear ();
-            void setLayout (Layout *l);
+            void setLayout (Layout &l);
+
+            void addPlot (Plot &p, unsigned row = 0, unsigned col = 0)
+                          throw (LayoutError);
 
         private:
 

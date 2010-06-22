@@ -28,11 +28,11 @@ namespace gnup {
 
     Plot::Plot (const char *tit)
     {
-        trigger = NULL;
         title = tit;
         style = LINES;
         auto_update = true;
         max_size = -1;
+        trigger = NULL;
     }
 
     Plot::~Plot ()
@@ -57,7 +57,7 @@ namespace gnup {
             data.pop_front();
         }
         if (auto_update && trigger) {
-            (*trigger)->trig();
+            trigger->trig();
         }
     }
 
@@ -95,14 +95,14 @@ namespace gnup {
                 sn = "lines";
                 break;
         }
-        c->command("\"-\" with %s ", sn);
+        c->command("\"-\" with %s\n", sn);
     }
 
     void Plot::reset (Comm *c)
     {
     }
 
-    void Plot::setTriggerPtr (Trigger **t)
+    void Plot::setTrigger (Trigger *t)
     {
         trigger = t;
     }

@@ -32,6 +32,7 @@ namespace gnup {
         public:
 
             Cell ();
+            Cell (Cell &c);
 
             void setXLabel (const char *label);
             void setYLabel (const char *label);
@@ -47,6 +48,7 @@ namespace gnup {
 
             void addPlot (Plot &p);
             void setTitle (const char *title);
+            void setTrigger (Trigger *t);
 
         private:
 
@@ -98,11 +100,12 @@ namespace gnup {
 
         public:
             Layout (size_t nrows, size_t ncols);
+            Layout (Layout &l);
+
             virtual ~Layout ();
             void draw (Comm *c);
 
             void setTrigger (Trigger *trig);
-            Trigger *getTrigger ();
 
             void addPlot (Plot &p, unsigned row, unsigned col)
                          throw (LayoutError);
@@ -124,7 +127,6 @@ namespace gnup {
             void drawCell (Comm *c, Cell *cell, unsigned row,
                            unsigned col);
 
-            Trigger *trig;
     };
 
 }

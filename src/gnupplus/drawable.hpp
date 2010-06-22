@@ -5,9 +5,25 @@
 
 namespace gnup {
 
+    /** Trigger abstract class
+     *
+     * Any extending class must implement the trig() method, which will be
+     * called by a plotting class (namely an extender of the Plot
+     * abstract). This will require a replotting.
+     */
+    class Trigger {
+        public:
+            /** Replot the graph.
+             *
+             * You may want to redraw, since new data are available.
+             */
+            virtual void trig () = 0;
+    };
+
     class Drawable {
         public:
             void run (Comm *c);
+            void setTrigger (Trigger *t);
 
         protected:
             virtual void init (Comm *c) = 0;

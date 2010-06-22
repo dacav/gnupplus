@@ -11,6 +11,16 @@ namespace gnup {
         dimensions = 0;
     }
 
+    Cell::Cell (Cell &c)
+    {
+        flags = c.flags;
+        dimensions = c.dimensions;
+        title = c.title;
+        labels = c.labels;
+        ranges = c.ranges;
+        plots = c.plots;
+    }
+
     void Cell::setTitle (const char *t)
     {
         title = t;
@@ -74,6 +84,16 @@ namespace gnup {
         }
     }
 
+    void Cell::setTrigger (Trigger *t)
+    {
+        std::list<Plot *>::iterator i, end;
+
+        end = plots.end();
+        for (i = plots.begin(); i != end; i ++) {
+            (*i)->setTrigger(t);
+        }
+    }
+
     void Cell::display (Comm *c)
     {
         std::list<Plot *>::iterator i,
@@ -87,7 +107,6 @@ namespace gnup {
         for (i = plots.begin(); i != end; i ++) {
             (*i)->init(c);
         }
-        c->command("\n");
         for (i = plots.begin(); i != end; i ++) {
             (*i)->display(c);
             (*i)->reset(c);
@@ -125,6 +144,21 @@ namespace gnup {
         ncols = nc;
     }
 
+    Layout::Layout (Layout &l)
+    {
+        if (&l != this) {
+            CellMap::iterator i, end;
+
+            nrows = l.nrows;
+            ncols = l.ncols;
+
+            end = l.cells.end();
+            for (i = l.cells.begin(); i != end; i ++) {
+                cells[i->first] = new Cell(*(i->second));
+            }
+        }
+    }
+
     Layout::~Layout ()
     {
         CellMap::iterator i, end;
@@ -146,13 +180,17 @@ namespace gnup {
     void Layout::display (Comm *c)
     {
         unsigned row, col;
+        const char *fmt = (nrows + ncols == 2) ? NULL
+                             : "set origin %f,%f\n";
 
         for (row = 0; row < nrows; row ++) {
             for (col = 0; col < ncols; col ++) {
                 Cell *cell;
                 if ((cell = cells[make_pair(row, col)]) != NULL) {
-                    c->command("set origin %f,%f\n", (float)col / ncols,
-                                                     (float)row / nrows);
+                    if (fmt) {
+                        c->command(fmt, (float)col / ncols,
+                                        (float)row / nrows);
+                    }
                     cell->run(c);
                 }
             }
@@ -163,14 +201,19 @@ namespace gnup {
     void Layout::reset (Comm *c)
     {
         if (nrows + ncols > 2) {
-            c->command("set size 1,1");
+            c->command("set size 1,1\n");
             c->command("unset multiplot\n");
         }
     }
 
     void Layout::setTrigger (Trigger *t)
     {
-        trig = t;
+        CellMap::iterator i, end;
+
+        end = cells.end();
+        for (i = cells.begin(); i != end; i ++) {
+            i->second->setTrigger(t);
+        }
     }
 
     Cell * Layout::getCell (unsigned row, unsigned col)
@@ -197,13 +240,7 @@ namespace gnup {
                          throw (LayoutError)
     {
         Cell *c = getCell(row, col);
-        p.setTriggerPtr(&trig);
         c->addPlot(p);
-    }
-
-    Trigger * Layout::getTrigger ()
-    {
-        return trig;
     }
 
 }
