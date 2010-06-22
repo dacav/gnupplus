@@ -100,6 +100,7 @@ namespace gnup {
 
     void Plot::reset (Comm *c)
     {
+        c->command("e\n");
     }
 
     void Plot::setTrigger (Trigger *t)

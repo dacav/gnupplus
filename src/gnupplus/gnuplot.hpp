@@ -46,8 +46,8 @@ namespace gnup {
                           throw (LayoutError);
 
         private:
-
             Layout *layout;
+
     };
 
 }
