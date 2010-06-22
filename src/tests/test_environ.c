@@ -25,7 +25,6 @@ void build_environment ()
     free(new_path);
 }
 
-
 int inloop_create (inloop_t *l, const char *echo_name,
                    const char *my_name)
 {
@@ -58,8 +57,6 @@ const char * inloop_filename (inloop_t *l)
 void inloop_destroy (inloop_t *l)
 {
     register const char *fname = inloop_filename(l);
-
-    remove(fname);
     free((void *)fname);
 }
 
@@ -68,19 +65,30 @@ bool inloop_compare (inloop_t *l, const char * lines[])
     FILE *f;
     char *lineptr = NULL;
     size_t n;
-    ssize_t read;
+    ssize_t read = -1;
+    bool passed;
 
     f = fopen(inloop_filename(l), "rt");
-    while ((read = getline(&lineptr, &n, f)) >= 0) {
-        lineptr[read] = '\0';   // remove newline
+    while ((read = getline(&lineptr, &n, f)) >= 0 && *lines != NULL) {
+        register char last;
+
+        if (read <= 0) {
+            continue;   // skip empty row.
+        }
+
+        if ((last = lineptr[read - 1]) == '\n') {
+            lineptr[read - 1] = '\0';
+        }
+
         if (strcmp(*lines, lineptr) != 0) {
             return false;
         }
         lines ++;
     }
+    passed = (read < 0) && (*lines == NULL);
     free(lineptr);
     fclose(f);
 
-    return true;
+    return passed;
 }
 

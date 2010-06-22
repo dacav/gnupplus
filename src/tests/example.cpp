@@ -5,7 +5,8 @@
 #include "test_environ.h"
 
 static const char* tale[] = {
-	"Command test!"
+	"Command test!",
+    NULL
 };
 
 int main (int argc, char **argv)
@@ -23,8 +24,8 @@ int main (int argc, char **argv)
      * This operation must be achieved explicitly in the library test, but
      * it's not necessary while using the library.
      */
-    gnup::GnuPlot *gp = new gnup::GnuPlot(2, "testecho", io.params);
-	gp->command("Command test!");
+    gnup::GnuPlot *gp = new gnup::GnuPlot("testecho", io.params);
+	gp->command("Command test!\n");
     delete gp;
 
 	assert(inloop_compare(&io, tale));

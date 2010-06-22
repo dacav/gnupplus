@@ -10,6 +10,7 @@ def main (argv=None):
         outfile = file(argv[1], "wt")
         while 1:
             outfile.write(raw_input())
+            outfile.write('\n')
             outfile.flush()
     except:
         pass
