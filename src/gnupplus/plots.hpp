@@ -40,8 +40,8 @@ namespace gnup {
             PlotError (const char *msg) throw() : Error(msg) {}
     };
 
-    /** Every plot basically boils down to a list of float. */
-    typedef std::list<float *> DataSet;
+    /** Every plot basically boils down to a list of double. */
+    typedef std::list<double *> DataSet;
 
     /** The plotting class
      *
@@ -141,7 +141,7 @@ namespace gnup {
              * @param vals The values to be added;
              * @param n The size of the vector;
              */
-            void addVector (float *vals);
+            void addVector (double *vals);
 
             DataSet data;
 
@@ -191,7 +191,7 @@ namespace gnup {
 
             size_t getDimension ();
 
-            void addVector (float x, float y);
+            void addVector (double x, double y);
 
             void writeFormat (Comm *c);
 
@@ -211,7 +211,7 @@ namespace gnup {
 
             size_t getDimension ();
 
-            void addVector (float x, float y, float z);
+            void addVector (double x, double y, double z);
 
             void writeFormat (Comm *c);
 

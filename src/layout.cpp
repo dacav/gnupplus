@@ -44,21 +44,21 @@ namespace gnup {
         flags |= LABEL_Z;
     }
 
-    void Cell::setXRange (float min, float max)
+    void Cell::setXRange (double min, double max)
     {
         ranges.x.min = min;
         ranges.x.max = max;
         flags |= RANGE_X;
     }
 
-    void Cell::setYRange (float min, float max)
+    void Cell::setYRange (double min, double max)
     {
         ranges.y.min = min;
         ranges.y.max = max;
         flags |= RANGE_Y;
     }
 
-    void Cell::setZRange (float min, float max)
+    void Cell::setZRange (double min, double max)
     {
         ranges.z.min = min;
         ranges.z.max = max;
@@ -188,8 +188,8 @@ namespace gnup {
                 Cell *cell;
                 if ((cell = cells[make_pair(row, col)]) != NULL) {
                     if (fmt) {
-                        c->command(fmt, (float)col / ncols,
-                                        (float)row / nrows);
+                        c->command(fmt, (double)col / ncols,
+                                        (double)row / nrows);
                     }
                     cell->run(c);
                 }

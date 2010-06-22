@@ -38,9 +38,9 @@ namespace gnup {
             void setYLabel (const char *label);
             void setZLabel (const char *label);
 
-            void setXRange (float min, float max);
-            void setYRange (float min, float max);
-            void setZRange (float min, float max);
+            void setXRange (double min, double max);
+            void setYRange (double min, double max);
+            void setZRange (double min, double max);
 
             void writeSettings (Comm *c);
             void resetSettings (Comm *c);
@@ -60,7 +60,7 @@ namespace gnup {
             } labels;
             struct {
                 struct {
-                    float min, max;
+                    double min, max;
                 } x, y, z;
             } ranges;
 

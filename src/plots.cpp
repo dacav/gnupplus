@@ -45,12 +45,12 @@ namespace gnup {
         }
     }
 
-    void Plot::addVector (float *vals)
+    void Plot::addVector (double *vals)
     {
         size_t n = getDimension();
-        float *v = new float[n];
+        double *v = new double[n];
 
-        memcpy((void *)v, (void *)vals, n * sizeof(float));
+        memcpy((void *)v, (void *)vals, n * sizeof(double));
 
         data.push_back(v);
         if (max_size && data.size() > max_size) {
@@ -147,7 +147,7 @@ namespace gnup {
         unsigned alt_y = 0;
 
         while (b != e) {
-            const float *vals = *b;
+            const double *vals = *b;
 
             if (coords.x == AUTO) {
                 c->command("%f\n", coords.y == DATA ? vals[1] : alt_y ++);
@@ -165,9 +165,9 @@ namespace gnup {
         return 2;
     }
 
-    void Plot2D::addVector (float x, float y)
+    void Plot2D::addVector (double x, double y)
     {
-        float v[] = {x, y};
+        double v[] = {x, y};
         Plot::addVector(v);
     }
 
@@ -193,9 +193,9 @@ namespace gnup {
         return 3;
     }
 
-    void Plot3D::addVector (float x, float y, float z)
+    void Plot3D::addVector (double x, double y, double z)
     {
-        float v[] = {x, y, z};
+        double v[] = {x, y, z};
         Plot::addVector(v);
     }
 
@@ -207,7 +207,7 @@ namespace gnup {
         unsigned alt_x = 0, alt_y = 0, alt_z = 0;
 
         while (b != e) {
-            const float *vals = *b;
+            const double *vals = *b;
 
             c->command("%f %f %f\n",
                        coords.x == DATA ? vals[0] : alt_x ++,
