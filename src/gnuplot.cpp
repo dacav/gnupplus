@@ -55,6 +55,7 @@ namespace gnup {
                            throw (LayoutError)
     {
         layout->addPlot(p, row, col);
+        p.setTrigger(this);
     }
 
     void GnuPlot::setLayout (Layout &l)

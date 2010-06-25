@@ -22,7 +22,7 @@
 #include <gnupplus/gnuplot.hpp>
 #include <cstring>
 
-#include <cstring>
+#include <cstdio>
 
 namespace gnup {
 
@@ -30,9 +30,9 @@ namespace gnup {
     {
         title = tit;
         style = LINES;
-        auto_update = true;
-        max_size = -1;
-        trigger = NULL;
+        max_size = 0;
+        setAutoUpdate(false);
+        setTrigger(NULL);
     }
 
     Plot::~Plot ()
@@ -54,6 +54,7 @@ namespace gnup {
 
         data.push_back(v);
         if (max_size && data.size() > max_size) {
+            delete[] data.front();
             data.pop_front();
         }
         if (auto_update && trigger) {
