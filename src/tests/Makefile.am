@@ -19,7 +19,7 @@
 
 AM_CPPFLAGS = -I$(top_srcdir)/src/ -I./ -Wall -Werror -D_GNU_SOURCE
 
-check_PROGRAMS = example simpleplot layout0
+check_PROGRAMS = example simpleplot layout0 realtime
 
 TESTS = $(check_PROGRAMS)
 AM_LDFLAGS = -L$(top_srcdir)/src/ -L./ -L../
@@ -28,4 +28,5 @@ LDADD = -lgnupplus
 example_SOURCES = example.cpp test_environ.c test_environ.h
 simpleplot_SOURCES = simpleplot.cpp test_environ.c test_environ.h
 layout0_SOURCES = layout0.cpp test_environ.c test_environ.h
+realtime_SOURCES = realtime.cpp test_environ.c test_environ.h
 
