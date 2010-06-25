@@ -23,7 +23,7 @@ lib_LTLIBRARIES = libgnupplus.la
 
 include_HEADERS = gnupplus.hpp
 
-includetreedir = $(prefix)/include/gnup
+includetreedir = $(prefix)/include/gnupplus
 includetree_HEADERS = gnupplus/except.hpp \
                       gnupplus/gnuplot.hpp \
                       gnupplus/pipe.hpp \
