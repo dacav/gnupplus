@@ -4,10 +4,14 @@ import sys
 
 def main (argv=None):
     if not argv: argv = sys.argv
-    assert(len(argv) > 1)
-    print 'TESTECHO Using file ', argv[1]
-    try:
+    if len(argv) > 1:
         outfile = file(argv[1], "wt")
+        print >> sys.stderr, "testecho: using", argv[1], "as output"
+    else:
+        print >> sys.stderr, "testecho: Warning, using stdout as output"
+        print >> sys.stderr, argv
+        outfile = sys.stdout
+    try:
         while 1:
             outfile.write(raw_input())
             outfile.write('\n')
