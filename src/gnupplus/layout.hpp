@@ -47,7 +47,7 @@ namespace gnup {
      * Basically this is a list of plots of a single cell, but it's
      * characterized by some graph-related characteistics.
      */
-    class Cell : public std::list<Plot *>, public Drawable {
+    class Cell : public Drawable {
 
         public:
 
@@ -130,7 +130,7 @@ namespace gnup {
             void addPlot (Plot &p, unsigned row, unsigned col)
                          throw (LayoutError);
 
-            Cell * getCell (unsigned row, unsigned col)
+            Cell & getCell (unsigned row, unsigned col)
                            throw (LayoutError);
 
         private:
@@ -143,9 +143,6 @@ namespace gnup {
             size_t nrows;
 
             CellMap cells;
-
-            void drawCell (Comm *c, Cell *cell, unsigned row,
-                           unsigned col);
 
     };
 

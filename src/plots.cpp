@@ -76,8 +76,8 @@ namespace gnup {
             case IMPULSES:
                 sn = "impulses";
                 break;
-            case DOTS:
-                sn = "dots";
+            case LINES:
+                sn = "lines";
                 break;
             case STEPS:
                 sn = "steps";
@@ -91,12 +91,21 @@ namespace gnup {
             case BOXERRORBARS:
                 sn = "boxerrorbars";
                 break;
-            case LINES:
-            default:
-                sn = "lines";
+            case DOTS:
+                sn = "dots";
                 break;
+            default:
+                sn = NULL;
         }
-        c->command("\"-\" with %s\n", sn);
+        c->command("\"-\"");
+        if (title) {
+            c->command(" title \"%s\"", title);
+        } else {
+            c->command(" notitle");
+        }
+        if (sn) {
+            c->command(" with %s", sn);
+        }
     }
 
     void Plot::reset (Comm *c)

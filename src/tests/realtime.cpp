@@ -4,32 +4,32 @@
 #include "test_environ.h"
 
 static const char* tale[] = {
-    "splot \"-\" with linespoints",
+    "splot \"-\" title \"3dPlot\" with linespoints",
     "0.000000 1.000000 1.000000",
     "e",
-    "splot \"-\" with linespoints",
+    "splot \"-\" title \"3dPlot\" with linespoints",
     "0.000000 1.000000 1.000000",
     "1.000000 2.000000 1.000000",
     "e",
-    "splot \"-\" with linespoints",
+    "splot \"-\" title \"3dPlot\" with linespoints",
     "0.000000 1.000000 1.000000",
     "1.000000 2.000000 1.000000",
     "2.000000 3.000000 1.000000",
     "e",
-    "splot \"-\" with linespoints",
+    "splot \"-\" title \"3dPlot\" with linespoints",
     "0.000000 1.000000 1.000000",
     "1.000000 2.000000 1.000000",
     "2.000000 3.000000 1.000000",
     "3.000000 2.000000 2.000000",
     "e",
-    "splot \"-\" with linespoints",
+    "splot \"-\" title \"3dPlot\" with linespoints",
     "0.000000 1.000000 1.000000",
     "1.000000 2.000000 1.000000",
     "2.000000 3.000000 1.000000",
     "3.000000 2.000000 2.000000",
     "4.000000 1.000000 2.000000",
     "e",
-    "splot \"-\" with linespoints",
+    "splot \"-\" title \"3dPlot\" with linespoints",
     "0.000000 1.000000 1.000000",
     "1.000000 2.000000 1.000000",
     "2.000000 3.000000 1.000000",
@@ -58,7 +58,7 @@ int main (int argc, char **argv)
      * it's not necessary while using the library.
      */
     gnup::GnuPlot *gp = new gnup::GnuPlot("testecho", io.params);
-    gnup::Plot3D plot ("Test plot", gnup::AUTO, gnup::DATA, gnup::DATA);
+    gnup::Plot3D plot ("3dPlot", gnup::AUTO, gnup::DATA, gnup::DATA);
 
     gp->addPlot(plot);
     plot.setStyle(gnup::Plot::LINESPOINTS);

@@ -29,16 +29,19 @@ namespace gnup {
            : Comm(prog, args, true)
     {
         if (l != NULL) {
-            layout = new Layout(*l);
+            layout = l;
+            def_layout = false;
         } else {
             layout = new Layout(1, 1);
+            def_layout = true;
         }
         layout->setTrigger(this);
     }
 
     GnuPlot::~GnuPlot ()
     {
-        delete layout;
+        if (def_layout)
+            delete layout;
     }
 
     void GnuPlot::trig ()
@@ -60,9 +63,16 @@ namespace gnup {
 
     void GnuPlot::setLayout (Layout &l)
     {
-        delete layout;
-        layout = new Layout(l);
-        layout->setTrigger(this);
+        if (def_layout)
+            delete layout;
+        layout = &l;
+        l.setTrigger(this);
+        def_layout = false;
+    }
+
+    Layout & GnuPlot::getLayout ()
+    {
+        return *layout;
     }
 
 }

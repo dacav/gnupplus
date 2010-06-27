@@ -25,7 +25,6 @@ using std::make_pair;
 namespace gnup {
 
     Cell::Cell ()
-        : std::list<Plot *>()
     {
         flags = 0;
         dimensions = 0;
@@ -116,17 +115,21 @@ namespace gnup {
 
     void Cell::display (Comm *c)
     {
-        std::list<Plot *>::iterator i,
+        size_t size;
+        std::list<Plot *>::iterator i = plots.begin(),
                                     end = plots.end();
 
-        if (plots.size() == 0) {
+        if ((size = plots.size()) == 0) {
             return;
         }
 
         c->command(dimensions > 2 ? "splot " : "plot ");
-        for (i = plots.begin(); i != end; i ++) {
+        do {
             (*i)->init(c);
-        }
+            if (-- size) c->command(", ");
+            i ++;
+        } while (i != end);
+        c->command("\n");
         for (i = plots.begin(); i != end; i ++) {
             (*i)->display(c);
             (*i)->reset(c);
@@ -140,10 +143,6 @@ namespace gnup {
         if (flags & RANGE_X) c->command(restore, 'x');
         if (flags & RANGE_Y) c->command(restore, 'y');
         if (flags & RANGE_Z) c->command(restore, 'z');
-
-        if (title != NULL) {
-            c->command("set title\n");
-        }
     }
 
     void Cell::addPlot (Plot &p)
@@ -236,20 +235,19 @@ namespace gnup {
         }
     }
 
-    Cell * Layout::getCell (unsigned row, unsigned col)
+    Cell & Layout::getCell (unsigned row, unsigned col)
                            throw (LayoutError)
     {
         if (row < nrows && col < ncols) {
             Coords coords = make_pair(row, col);
             Cell *ret;
 
-            ret = cells[coords];
-            if (ret == NULL) {
-                ret = new Cell();
-                cells[coords] = ret;
+            if (cells.find(coords) == cells.end()) {
+                cells.insert(make_pair(coords, ret = new Cell()));
+            } else {
+                ret = cells[coords];
             }
-            return ret;
-
+            return *ret;
         } else {
             LayoutError err ("Trying to plot outside the boundary");
             throw err;
@@ -259,8 +257,7 @@ namespace gnup {
     void Layout::addPlot (Plot &p, unsigned row, unsigned col)
                          throw (LayoutError)
     {
-        Cell *c = getCell(row, col);
-        c->addPlot(p);
+        getCell(row, col).addPlot(p);
     }
 
 }

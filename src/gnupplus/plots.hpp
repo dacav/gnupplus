@@ -73,15 +73,6 @@ namespace gnup {
                 BOXERRORBARS    /**< Plot boxes and error bars */
             };
 
-            /** Returns the title of the plotting.
-             *
-             * This method will be used by the gnup::GnuPlot class in
-             * order to build the legend.
-             *
-             * @return The title of the graph.
-             */
-            const char * getTitle ();
-
             /** Destructor */
             virtual ~Plot ();
 

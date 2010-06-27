@@ -5,14 +5,14 @@
 #include "test_environ.h"
 
 static const char* tale[] = {
-	"plot \"-\" with linespoints",
+    "plot \"-\" title \"A plot\" with linespoints",
     "1.000000",
     "2.000000",
     "3.000000",
     "2.000000",
     "1.000000",
     "e",
-	"plot \"-\" with linespoints",
+    "plot \"-\" title \"A plot\" with linespoints",
     "1.000000",
     "2.000000",
     "3.000000",
@@ -41,7 +41,7 @@ int main (int argc, char **argv)
      * it's not necessary while using the library.
      */
     gnup::GnuPlot *gp = new gnup::GnuPlot("testecho", io.params);
-    gnup::Plot2D plot ("Test plot", gnup::AUTO, gnup::DATA);
+    gnup::Plot2D plot ("A plot", gnup::AUTO, gnup::DATA);
 
     gp->addPlot(plot);
     plot.setStyle(gnup::Plot::LINESPOINTS);
