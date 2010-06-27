@@ -39,6 +39,8 @@ namespace gnup {
             ~GnuPlot ();
 
             void trig ();
+            void setTitle (const char *title)
+                          throw (LayoutError);
             void clear ();
             void setLayout (Layout &l);
             Layout & getLayout ();
@@ -49,6 +51,7 @@ namespace gnup {
         private:
             Layout *layout;
             bool def_layout;
+            const char *title;
 
     };
 

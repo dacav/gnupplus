@@ -130,7 +130,7 @@ namespace gnup {
             void addPlot (Plot &p, unsigned row, unsigned col)
                          throw (LayoutError);
 
-            Cell & getCell (unsigned row, unsigned col)
+            Cell & getCell (unsigned row = 0, unsigned col = 0)
                            throw (LayoutError);
 
         private:

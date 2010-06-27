@@ -36,6 +36,7 @@ namespace gnup {
             def_layout = true;
         }
         layout->setTrigger(this);
+        title = NULL;
     }
 
     GnuPlot::~GnuPlot ()
@@ -44,8 +45,20 @@ namespace gnup {
             delete layout;
     }
 
+    void GnuPlot::setTitle (const char *t)
+                           throw (LayoutError)
+    {
+        if (def_layout) {
+            title = t;
+        } else {
+            LayoutError err ("You provided a layout, use it for titles");
+            throw err;
+        }
+    }
+
     void GnuPlot::trig ()
     {
+        if (title) command("set title \"%s\"\n", title);
         layout->run(this);
     }
 
