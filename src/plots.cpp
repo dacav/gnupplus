@@ -62,9 +62,21 @@ namespace gnup {
         }
     }
 
+    void Plot::clear ()
+    {
+        while (!data.empty()) {
+            delete[] data.front();
+            data.pop_front();
+        }
+    }
+
     void Plot::init (Comm *c)
     {
         const char *sn;
+
+        if (data.empty()) {
+            return;
+        }
 
         switch (style) {
             case POINTS:
@@ -110,7 +122,9 @@ namespace gnup {
 
     void Plot::reset (Comm *c)
     {
-        c->command("e\n");
+        if (!data.empty()) {
+            c->command("e\n");
+        }
     }
 
     void Plot::setTrigger (Trigger *t)
@@ -120,7 +134,9 @@ namespace gnup {
 
     void Plot::display (Comm *c)
     {
-        display(c, data.begin(), data.end());
+        if (!data.empty()) {
+            display(c, data.begin(), data.end());
+        }
     }
 
     void Plot::setStyle (style_t s)

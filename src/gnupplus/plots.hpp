@@ -116,6 +116,12 @@ namespace gnup {
              */
             void setOverflow (size_t max);
 
+            /** Clear the buffered data
+             *
+             * Useful for real time plotting that wants to be cleared.
+             */
+            void clear ();
+
             void init (Comm *c);
             void display (Comm *c);
             void reset (Comm *c);
