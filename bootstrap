@@ -1,10 +1,6 @@
 #!/bin/sh
 
+mkdir m4
 rm -f config.cache
-libtoolize && 
-aclocal &&
-autoconf &&
-autoheader &&
-automake -a &&
 
-exit
+exec autoreconf --install

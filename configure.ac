@@ -17,8 +17,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 
-AC_PREREQ([2.64])
-AC_INIT([gnupplus], [0.0.1], [dacav@roundhousecode.com])
+AC_INIT([gnupplus], [0.0.1], [simgidacav@gmail.com])
 
 AM_INIT_AUTOMAKE([-Wall])
 
