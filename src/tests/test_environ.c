@@ -1,6 +1,7 @@
 #include "test_environ.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -30,7 +31,7 @@ int inloop_create (inloop_t *l, const char *echo_name,
 {
     register char * fname;
     size_t n;
-    
+
     // Build the name for the pipe basing on my program name.
     n = strlen(my_name);
     fname = malloc(sizeof(char) * (n + 3));  // room for __ and \0
