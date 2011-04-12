@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <assert.h>
 
-#include "test_environ.h"
+#include "test_environ.hh"
 
 static const char* tale[] = {
 	"Command test!",
@@ -11,11 +11,7 @@ static const char* tale[] = {
 
 int main (int argc, char **argv)
 {
-    inloop_t io;
-
-    build_environment();
-
-    assert(inloop_create(&io, "testecho", argv[0]) == 0);
+    InputLoop io ("testecho", argv[0]);
 
     /* VERY IMPORTANT NOTE! In order to ensure determinism, the object
      * must be deallocated before the check, since you may accidentally
@@ -28,8 +24,6 @@ int main (int argc, char **argv)
 	gp->command("Command test!\n");
     delete gp;
 
-	assert(inloop_compare(&io, tale));
-    inloop_destroy(&io);
-
+	assert(io == tale);
     return 0;
 }

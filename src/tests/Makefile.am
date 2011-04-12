@@ -25,8 +25,8 @@ TESTS = $(check_PROGRAMS)
 AM_LDFLAGS = -L$(top_srcdir)/src/ -L./ -L../
 LDADD = -lgnupplus
 
-example_SOURCES = example.cpp test_environ.c test_environ.h
-simpleplot_SOURCES = simpleplot.cpp test_environ.c test_environ.h
-layout0_SOURCES = layout0.cpp test_environ.c test_environ.h
-realtime_SOURCES = realtime.cpp test_environ.c test_environ.h
+example_SOURCES = example.cpp test_environ.cc test_environ.hh
+simpleplot_SOURCES = simpleplot.cpp test_environ.cc test_environ.hh
+layout0_SOURCES = layout0.cpp test_environ.cc test_environ.hh
+realtime_SOURCES = realtime.cpp test_environ.cc test_environ.hh
 

@@ -1,7 +1,7 @@
 #include <gnupplus.hpp>
 #include <cstdio>
 #include <assert.h>
-#include "test_environ.h"
+#include "test_environ.hh"
 
 static const char* tale[] = {
     "set multiplot",
@@ -38,10 +38,7 @@ static const char* tale[] = {
 
 int main (int argc, char **argv)
 {
-    inloop_t io;
-
-    build_environment();
-    assert(inloop_create(&io, "testecho", argv[0]) == 0);
+    InputLoop io("testecho", argv[0]);
 
     gnup::Layout layout (2, 2);
 
@@ -80,8 +77,7 @@ int main (int argc, char **argv)
 
     delete gp;
 
-    assert(inloop_compare(&io, tale));
-    inloop_destroy(&io);
+    assert(io == tale);
 
     return 0;
 }
