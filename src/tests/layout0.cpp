@@ -7,6 +7,8 @@ static const char* tale[] = {
     "set multiplot",
     "set size 0.500000,0.500000",
     "set origin 0.000000,0.000000",
+    "set xlabel \"First x axis\"",
+    "set ylabel \"First y axis\"",
     "set title \"First plot\"",
     "plot \"-\" title \"A plot\" with linespoints,"
         " \"-\" title \"Another plot\" with lines",
@@ -23,6 +25,8 @@ static const char* tale[] = {
     "1.000000 4.000000",
     "e",
     "set origin 0.500000,0.500000",
+    "set xlabel \"Second x axis\"",
+    "set ylabel \"Second y axis\"",
     "set title \"Second plot\"",
     "plot \"-\" title \"A plot\" with linespoints",
     "1.000000",
@@ -58,9 +62,13 @@ int main (int argc, char **argv)
     gp->addPlot(plot0, 0, 0);
     gp->addPlot(plot1, 0, 0);
     layout.getCell(0, 0).setTitle("First plot");
+    layout.getCell(0, 0).setXLabel("First x axis");
+    layout.getCell(0, 0).setYLabel("First y axis");
 
     gp->addPlot(plot0, 1, 1);
     layout.getCell(1, 1).setTitle("Second plot");
+    layout.getCell(1, 1).setXLabel("Second x axis");
+    layout.getCell(1, 1).setYLabel("Second y axis");
 
     plot0.setStyle(gnup::Plot::LINESPOINTS);
     plot0.addVector(0, 1);

@@ -86,21 +86,34 @@ namespace gnup {
 
     void Cell::init (Comm *c)
     {
-        const char * set = "set %crange [%f:%f]\n";
+        const char * set_range = "set %crange [%f:%f]\n";
+        const char * set_label = "set %clabel \"%s\"\n";
 
         if (flags & RANGE_X) {
-            c->command(set, 'x', ranges.x.min, ranges.x.max);
+            c->command(set_range, 'x', ranges.x.min, ranges.x.max);
         }
         if (flags & RANGE_Y) {
-            c->command(set, 'y', ranges.y.min, ranges.y.max);
+            c->command(set_range, 'y', ranges.y.min, ranges.y.max);
         }
         if (flags & RANGE_Z) {
-            c->command(set, 'z', ranges.z.min, ranges.z.max);
+            c->command(set_range, 'z', ranges.z.min, ranges.z.max);
+        }
+
+        if (flags & LABEL_X) {
+            c->command(set_label, 'x', labels.x);
+        }
+        if (flags & LABEL_Y) {
+            c->command(set_label, 'y', labels.y);
+        }
+        if (flags & LABEL_Z) {
+            c->command(set_label, 'z', labels.z);
         }
 
         if (title != NULL) {
             c->command("set title \"%s\"\n", title);
         }
+
+
     }
 
     void Cell::setTrigger (Trigger *t)

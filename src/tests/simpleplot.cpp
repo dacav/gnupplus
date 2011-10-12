@@ -5,6 +5,8 @@
 #include "test_environ.hh"
 
 static const char* tale[] = {
+    "set xlabel \"x axis label\"",
+    "set ylabel \"y axis label\"",
     "plot \"-\" title \"A plot\" with linespoints",
     "1.000000",
     "2.000000",
@@ -12,6 +14,8 @@ static const char* tale[] = {
     "2.000000",
     "1.000000",
     "e",
+    "set xlabel \"x axis label\"",
+    "set ylabel \"y axis label\"",
     "plot \"-\" title \"A plot\" with linespoints",
     "1.000000",
     "2.000000",
@@ -39,6 +43,8 @@ int main (int argc, char **argv)
     gnup::GnuPlot *gp = new gnup::GnuPlot("testecho", io.params);
     gnup::Plot2D plot ("A plot", gnup::AUTO, gnup::DATA);
 
+    gp->getLayout().getCell(0,0).setXLabel("x axis label");
+    gp->getLayout().getCell(0,0).setYLabel("y axis label");
     gp->addPlot(plot);
     plot.setStyle(gnup::Plot::LINESPOINTS);
     plot.addVector(0, 1);
