@@ -23,6 +23,7 @@
 #include <cstring>
 
 #include <cstdio>
+#include <algorithm>
 
 namespace gnup {
 
@@ -37,10 +38,9 @@ namespace gnup {
 
     Plot::~Plot ()
     {
-        DataSet::iterator i, end;
+        typedef DataSet::iterator It;
 
-        end = data.end();
-        for (i = data.begin(); i != end; i ++) {
+        for (It i = data.begin(); i != data.end(); i ++) {
             delete[] *i;
         }
     }
@@ -50,7 +50,7 @@ namespace gnup {
         size_t n = getDimension();
         double *v = new double[n];
 
-        memcpy((void *)v, (void *)vals, n * sizeof(double));
+        std::copy(vals, vals + n, v);
 
         data.push_back(v);
         if (max_size && data.size() > max_size) {

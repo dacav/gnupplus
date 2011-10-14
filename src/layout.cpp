@@ -118,10 +118,9 @@ namespace gnup {
 
     void Cell::setTrigger (Trigger *t)
     {
-        std::list<Plot *>::iterator i, end;
+        typedef std::list<Plot *>::iterator It;
 
-        end = plots.end();
-        for (i = plots.begin(); i != end; i ++) {
+        for (It i = plots.begin(); i != plots.end(); i ++) {
             (*i)->setTrigger(t);
         }
     }
@@ -129,21 +128,19 @@ namespace gnup {
     void Cell::display (Comm *c)
     {
         size_t size;
-        std::list<Plot *>::iterator i = plots.begin(),
-                                    end = plots.end();
-
+        typedef std::list<Plot *>::iterator It;
+        
         if ((size = plots.size()) == 0) {
             return;
         }
 
         c->command(dimensions > 2 ? "splot " : "plot ");
-        do {
+        for (It i = plots.begin(); i != plots.end(); i ++) {
             (*i)->init(c);
             if (-- size) c->command(", ");
-            i ++;
-        } while (i != end);
+        }
         c->command("\n");
-        for (i = plots.begin(); i != end; i ++) {
+        for (It i = plots.begin(); i != plots.end(); i ++) {
             (*i)->display(c);
             (*i)->reset(c);
         }
@@ -177,14 +174,14 @@ namespace gnup {
 
     Layout::Layout (Layout &l)
     {
+        typedef CellMap::iterator It;
+
         if (&l != this) {
-            CellMap::iterator i, end;
 
             nrows = l.nrows;
             ncols = l.ncols;
 
-            end = l.cells.end();
-            for (i = l.cells.begin(); i != end; i ++) {
+            for (It i = l.cells.begin(); i != l.cells.end(); i ++) {
                 cells[i->first] = new Cell(*(i->second));
             }
         }
@@ -192,10 +189,9 @@ namespace gnup {
 
     Layout::~Layout ()
     {
-        CellMap::iterator i, end;
+        typedef CellMap::iterator It;
 
-        end = cells.end();
-        for (i = cells.begin(); i != end; i ++) {
+        for (It i = cells.begin(); i != cells.end(); i ++) {
             delete i->second;
         }
     }
@@ -216,8 +212,10 @@ namespace gnup {
 
         for (row = 0; row < nrows; row ++) {
             for (col = 0; col < ncols; col ++) {
-                Cell *cell;
-                if ((cell = cells[make_pair(row, col)]) != NULL) {
+                CellMap::iterator cp = cells.find(make_pair(row, col));
+
+                if (cp != cells.end()) {
+                    Cell *cell = cp->second;
                     if (fmt) {
                         c->command(fmt, (double)col / ncols,
                                         (double)row / nrows);
@@ -239,10 +237,9 @@ namespace gnup {
 
     void Layout::setTrigger (Trigger *t)
     {
-        CellMap::iterator i, end;
+        typedef CellMap::iterator It;
 
-        end = cells.end();
-        for (i = cells.begin(); i != end; i ++) {
+        for (It i = cells.begin(); i != cells.end(); i ++) {
             i->second->setTrigger(t);
         }
     }
