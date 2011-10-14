@@ -21,23 +21,21 @@
 #ifndef __defined_gnup_plots_hpp
 #define __defined_gnup_plots_hpp
 
-#include <gnupplus/except.hpp>
 #include <gnupplus/pipe.hpp>
 #include <gnupplus/drawable.hpp>
 
 #include <list>
 #include <stdint.h>
+#include <stdexcept>
+#include <string>
 
 namespace gnup {
 
     /** Exception for plotting */
-    class PlotError : public Error {
+    class PlotError : public std::runtime_error {
         public:
-            /** Constructor.
-             *
-             * @param msg The error message.
-             */
-            PlotError (const char *msg) throw() : Error(msg) {}
+            PlotError (const std::string &m)
+                : std::runtime_error(m) {}
     };
 
     /** Every plot basically boils down to a list of double. */

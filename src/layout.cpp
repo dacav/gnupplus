@@ -164,8 +164,7 @@ namespace gnup {
         if (dimensions == 0) {
             dimensions = dim;
         } else if (dim != dimensions) {
-            PlotError err ("Inconsistent dimension for cell");
-            throw err;
+            throw PlotError("Inconsistent dimension for cell");
         }
         plots.push_back(&p);
     }
@@ -249,7 +248,6 @@ namespace gnup {
     }
 
     Cell & Layout::getCell (unsigned row, unsigned col)
-                           throw (LayoutError)
     {
         if (row < nrows && col < ncols) {
             Coords coords = make_pair(row, col);
@@ -262,13 +260,11 @@ namespace gnup {
             }
             return *ret;
         } else {
-            LayoutError err ("Trying to plot outside the boundary");
-            throw err;
+            throw LayoutError("Trying to plot outside the boundary");
         }
     }
 
     void Layout::addPlot (Plot &p, unsigned row, unsigned col)
-                         throw (LayoutError)
     {
         getCell(row, col).addPlot(p);
     }

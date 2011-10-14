@@ -21,35 +21,32 @@
 #ifndef __defined_gnup_pipe_hpp
 #define __defined_gnup_pipe_hpp
 
-#include <gnupplus/except.hpp>
-
 #include <unistd.h>
 #include <cstdio>
-#include <exception>
+#include <stdexcept>
+#include <string>
 
 namespace gnup {
 
-    class CommError : public Error {
+    class CommError : public std::runtime_error {
         public:
-            CommError (const char *msg) throw() : Error(msg) {}
+            CommError (const std::string &m) :
+                std::runtime_error(m) {}
     };
 
     class Comm {
-
         public:
             virtual ~Comm ();
             void command (const char *fmt, ...);
 
         protected:
-            Comm (const char * prog, const char * args[], bool req_X)
-                 throw (CommError);
+            Comm (const char * prog, const char * args[], bool req_X);
 
         private:
             pid_t child;
             FILE *output;
 
-            void checkX() throw (CommError);
-
+            void checkX();
     };
 
 }

@@ -25,7 +25,6 @@ namespace gnup {
 
     GnuPlot::GnuPlot (const char *prog, const char * args[],
                       Layout *l)
-                     throw (CommError)
            : Comm(prog, args, true)
     {
         if (l != NULL) {
@@ -41,18 +40,17 @@ namespace gnup {
 
     GnuPlot::~GnuPlot ()
     {
-        if (def_layout)
+        if (def_layout) {
             delete layout;
+        }
     }
 
     void GnuPlot::setTitle (const char *t)
-                           throw (LayoutError)
     {
         if (def_layout) {
             title = t;
         } else {
-            LayoutError err ("You provided a layout, use it for titles");
-            throw err;
+            throw LayoutError("You provided a layout, use it for titles");
         }
     }
 
@@ -68,7 +66,6 @@ namespace gnup {
     }
 
     void GnuPlot::addPlot (Plot &p, unsigned row, unsigned col)
-                           throw (LayoutError)
     {
         layout->addPlot(p, row, col);
         p.setTrigger(this);

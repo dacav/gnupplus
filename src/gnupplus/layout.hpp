@@ -24,6 +24,8 @@
 #include <map>
 #include <list>
 #include <utility>
+#include <stdexcept>
+#include <string>
 
 #include <stdint.h>
 
@@ -107,13 +109,10 @@ namespace gnup {
     typedef std::map<Coords, Cell *> CellMap;
 
     /** Exception for layout */
-    class LayoutError : public Error {
+    class LayoutError : public std::logic_error {
         public:
-            /** Constructor.
-             *
-             * @param msg The error message.
-             */
-            LayoutError (const char *msg) throw() : Error(msg) {}
+            LayoutError (const std::string &m) :
+                std::logic_error(m) {}
     };
 
     class Layout : public Drawable {
@@ -124,14 +123,9 @@ namespace gnup {
 
             virtual ~Layout ();
             void draw (Comm *c);
-
             void setTrigger (Trigger *trig);
-
-            void addPlot (Plot &p, unsigned row, unsigned col)
-                         throw (LayoutError);
-
-            Cell & getCell (unsigned row = 0, unsigned col = 0)
-                           throw (LayoutError);
+            void addPlot (Plot &p, unsigned row, unsigned col);
+            Cell & getCell (unsigned row = 0, unsigned col = 0);
 
         private:
 

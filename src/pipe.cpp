@@ -31,7 +31,6 @@
 namespace gnup {
 
     Comm::Comm (const char * prog, const char * args[], bool req_X)
-               throw (CommError)
     {
         int pipefd[2];
 
@@ -40,38 +39,33 @@ namespace gnup {
         }
 
         if (pipe(pipefd) == -1) {
-            CommError err("Unable to pipe");
-            throw err;
+            throw CommError("Unable to pipe");
         }
 
         child = fork();
         if (child == -1) {
-            CommError err("Unable to fork");
-            throw err;
+            throw CommError("Unable to fork");
         }
         if (child == 0) {
             char * const defargs[] = { (char * const)prog, NULL };
 
             close(pipefd[1]);
             if (dup2(pipefd[0], 0) == -1) {
-                CommError err("Unable to dup");
-                throw err;
+                throw CommError("Unable to dup");
             }
             close(pipefd[0]);
             if (execvp(prog, args ? (char ** const)args : defargs) == -1) {
-                CommError err("Unable to exec");
-                throw err;
+                throw CommError("Unable to exec");
             }
         }
         close(pipefd[0]);
         output = fdopen(pipefd[1], "a");
     }
 
-    void Comm::checkX () throw (CommError)
+    void Comm::checkX ()
     {
         if (getenv("DISPLAY") == NULL) {
-            CommError err("Cannot find DISPLAY variable");
-            throw err;
+            throw CommError("Cannot find DISPLAY variable");
         }
     }
 

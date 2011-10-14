@@ -33,20 +33,17 @@ namespace gnup {
         public:
             GnuPlot (const char * prog = "gnuplot",
                      const char * args[] = NULL,
-                     Layout *layout = NULL)
-                throw (CommError);
+                     Layout *layout = NULL);
 
             ~GnuPlot ();
 
             void trig ();
-            void setTitle (const char *title)
-                          throw (LayoutError);
+            void setTitle (const char *title);
             void clear ();
             void setLayout (Layout &l);
             Layout & getLayout ();
 
-            void addPlot (Plot &p, unsigned row = 0, unsigned col = 0)
-                          throw (LayoutError);
+            void addPlot (Plot &p, unsigned row = 0, unsigned col = 0);
 
         private:
             Layout *layout;
