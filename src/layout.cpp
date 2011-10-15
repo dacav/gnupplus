@@ -25,19 +25,15 @@ using std::make_pair;
 namespace gnup {
 
     Cell::Cell ()
+        :   dimensions(0), flags(0)
     {
-        flags = 0;
-        dimensions = 0;
     }
 
     Cell::Cell (Cell &c)
+        :   dimensions(c.dimensions), flags(c.flags),
+            title(c.title), labels(c.labels),
+            ranges(c.ranges), plots(c.plots)
     {
-        flags = c.flags;
-        dimensions = c.dimensions;
-        title = c.title;
-        labels = c.labels;
-        ranges = c.ranges;
-        plots = c.plots;
     }
 
     void Cell::setTitle (const char *t)
@@ -98,7 +94,6 @@ namespace gnup {
         if (flags & RANGE_Z) {
             c->command(set_range, 'z', ranges.z.min, ranges.z.max);
         }
-
         if (flags & LABEL_X) {
             c->command(set_label, 'x', labels.x);
         }
@@ -108,12 +103,9 @@ namespace gnup {
         if (flags & LABEL_Z) {
             c->command(set_label, 'z', labels.z);
         }
-
-        if (title != NULL) {
-            c->command("set title \"%s\"\n", title);
+        if (title.length() != 0) {
+            c->command("set title \"%s\"\n", title.c_str());
         }
-
-
     }
 
     void Cell::setTrigger (Trigger *t)
@@ -129,7 +121,7 @@ namespace gnup {
     {
         size_t size;
         typedef std::list<Plot *>::iterator It;
-        
+
         if ((size = plots.size()) == 0) {
             return;
         }
@@ -177,7 +169,6 @@ namespace gnup {
         typedef CellMap::iterator It;
 
         if (&l != this) {
-
             nrows = l.nrows;
             ncols = l.ncols;
 

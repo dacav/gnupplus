@@ -29,7 +29,6 @@
 namespace gnup {
 
     class GnuPlot : public Comm, Trigger {
-
         public:
             GnuPlot (const char * prog = "gnuplot",
                      const char * args[] = NULL,
@@ -49,7 +48,6 @@ namespace gnup {
             Layout *layout;
             bool def_layout;
             const char *title;
-
     };
 
 }

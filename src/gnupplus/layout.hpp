@@ -32,7 +32,6 @@
 #include <gnupplus/drawable.hpp>
 #include <gnupplus/plots.hpp>
 #include <gnupplus/pipe.hpp>
-#include <gnupplus/except.hpp>
 
 namespace gnup {
 
@@ -50,9 +49,7 @@ namespace gnup {
      * characterized by some graph-related characteistics.
      */
     class Cell : public Drawable {
-
         public:
-
             Cell ();
             Cell (Cell &c);
 
@@ -73,10 +70,9 @@ namespace gnup {
             void setTrigger (Trigger *t);
 
         private:
-
             size_t dimensions;
-
-            const char *title;
+            uint8_t flags;
+            std::string title;
             struct {
                 const char *x, *y, *z;
             } labels;
@@ -86,7 +82,6 @@ namespace gnup {
                 } x, y, z;
             } ranges;
 
-            uint8_t flags;
             static const uint8_t RANGE_X = 1 << 0;
             static const uint8_t RANGE_Y = 1 << 1;
             static const uint8_t RANGE_Z = 1 << 2;
@@ -99,7 +94,6 @@ namespace gnup {
             void init (Comm *c);
             void display (Comm *c);
             void reset (Comm *c);
-
     };
 
     /** From cell coordinate to plot.
@@ -116,7 +110,6 @@ namespace gnup {
     };
 
     class Layout : public Drawable {
-
         public:
             Layout (size_t nrows, size_t ncols);
             Layout (Layout &l);
@@ -128,7 +121,6 @@ namespace gnup {
             Cell & getCell (unsigned row = 0, unsigned col = 0);
 
         private:
-
             void init (Comm *c);
             void display (Comm *c);
             void reset (Comm *c);
@@ -137,7 +129,6 @@ namespace gnup {
             size_t nrows;
 
             CellMap cells;
-
     };
 
 }

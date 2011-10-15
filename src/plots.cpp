@@ -51,7 +51,6 @@ namespace gnup {
         double *v = new double[n];
 
         std::copy(vals, vals + n, v);
-
         data.push_back(v);
         if (max_size && data.size() > max_size) {
             delete[] data.front();
